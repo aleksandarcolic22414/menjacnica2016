@@ -247,9 +247,11 @@ public class MenjacnicaGUI extends JFrame {
 	
 	private void prikaziIzvrsiZamenuGUI() {
 		if (table.getSelectedRow() != -1) {
-			MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
-			Valuta valuta = model.vratiValutu(table.getSelectedRow());
-			KontrolerGUI.prikaziIzvrsiZamenuGUIKontroler(valuta);
+			KontrolerGUI.prikaziIzvrsiZamenuGUIKontroler();
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Odaberite valutu za transakciju.",
+					"Upozorenje", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 

@@ -63,6 +63,8 @@ public class KontrolerGUI {
 	
 	public static void sacuvajUFajl() {
 		try {
+			if(menjacnica.vratiKursnuListu().isEmpty())
+				throw new RuntimeException("Kursna lista je prazna!");
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showSaveDialog(glavniProzor.getContentPane());
 
@@ -96,7 +98,7 @@ public class KontrolerGUI {
 		return menjacnica.vratiKursnuListu();
 	}
 	
-	public static void prikaziValutuKontroler() {
+	public static void prikaziValutuZaBrisanjeKontroler() {
 		obrisiKursProzor.prikaziValutu();
 	}
 	
@@ -118,8 +120,8 @@ public class KontrolerGUI {
 		dodajKursProzor.setVisible(true);
 	}
 
-	public static void prikaziIzvrsiZamenuGUIKontroler(Valuta valuta) {
-		izvrsiZamenuProzor = new IzvrsiZamenuGUI(valuta);
+	public static void prikaziIzvrsiZamenuGUIKontroler() {
+		izvrsiZamenuProzor = new IzvrsiZamenuGUI();
 		izvrsiZamenuProzor.setLocationRelativeTo(null);
 		izvrsiZamenuProzor.setVisible(true);
 		
@@ -127,6 +129,10 @@ public class KontrolerGUI {
 
 	public static Valuta vratiSelektovanuValutu() {
 		return glavniProzor.vratiSelektovanuValutu();
+	}
+
+	public static double izvrsiZamenu(Valuta valuta, boolean prodaja, double iznos) {
+		return menjacnica.izvrsiTransakciju(valuta, prodaja, iznos);
 	}
 	
 }

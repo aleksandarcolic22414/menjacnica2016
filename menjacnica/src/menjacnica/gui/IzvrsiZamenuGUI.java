@@ -22,6 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 
 import javax.swing.ButtonGroup;
@@ -54,7 +55,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IzvrsiZamenuGUI(Valuta valuta) {
+	public IzvrsiZamenuGUI() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvrsiZamenuGUI.class.getResource("/icons/Screenshot.png")));
 		setTitle("Izvrsi zamenu");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -79,7 +80,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 		contentPane.add(getTextFieldValuta());
 		contentPane.add(getLblKonacniIznos());
 		contentPane.add(getTextFieldKonacniIznos());
-		this.valuta = valuta;
+		valuta = KontrolerGUI.vratiSelektovanuValutu();
 				
 		prikaziValutu();
 	}
@@ -159,12 +160,26 @@ public class IzvrsiZamenuGUI extends JFrame {
 			btnIzvrsiZamenu = new JButton("Izracunaj iznos");
 			btnIzvrsiZamenu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-//					izvrsiZamenu();
+					izvrsiZamenu();
 				}
 			});
 			btnIzvrsiZamenu.setBounds(24, 234, 160, 25);
 		}
 		return btnIzvrsiZamenu;
+	}
+	private void izvrsiZamenu() {
+		try{
+			double iznos = Double.parseDouble(getTextFieldIznos().getText());
+			boolean prodaja = getRdbtnProdaja().isSelected();
+			double konacanIznos = KontrolerGUI.izvrsiZamenu(valuta, prodaja, iznos);
+			DecimalFormat df = new DecimalFormat("#.##");
+			getTextFieldKonacniIznos().setText(df.format(konacanIznos));
+			
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Pogresno unet iznos!",
+					"Greska", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 	private JButton getBtnOdustani() {
 		if (btnOdustani == null) {
@@ -234,17 +249,5 @@ public class IzvrsiZamenuGUI extends JFrame {
 		textFieldValuta.setText(valuta.getSkraceniNaziv());
 	}
 	
-//	private void izvrsiZamenu(){
-//		try{
-//			double konacniIznos = 
-//					glavniProzor.sistem.izvrsiTransakciju(valuta,
-//							rdbtnProdaja.isSelected(), 
-//							Double.parseDouble(textFieldIznos.getText()));
-//		
-//			textFieldKonacniIznos.setText(""+konacniIznos);
-//		} catch (Exception e1) {
-//		JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
-//				"Greska", JOptionPane.ERROR_MESSAGE);
-//	}
-//	}
+	
 }
