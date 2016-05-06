@@ -11,7 +11,7 @@ import menjacnica.Valuta;
 public class MenjacnicaTableModel extends AbstractTableModel {
 
 	private final String[] kolone = new String[] { "Sifra", "Skr.naziv", "Naziv", "Kupovni", "Srednji", "Prodajni" };
-	private List<Valuta> valute = new LinkedList<Valuta> ();
+	private LinkedList<Valuta> valute = new LinkedList<Valuta> ();
 
 	public MenjacnicaTableModel() {
 	}
@@ -52,7 +52,7 @@ public class MenjacnicaTableModel extends AbstractTableModel {
 		return kolone[column];
 	}
 
-	public void staviSveValuteUModel(List<Valuta> valute) {
+	public void osveziTabelu(LinkedList<Valuta> valute) {
 		this.valute = valute;
 		fireTableDataChanged();
 	}

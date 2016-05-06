@@ -39,14 +39,12 @@ public class DodajKursGUI extends JFrame {
 	private JTextField textFieldSkraceniNaziv;
 	private JButton btnDodaj;
 	private JButton btnOdus;
-
-	private MenjacnicaGUI glavniProzor;
 	private JSpinner spinnerSifra;
 
 	/**
 	 * Create the frame.
 	 */
-	public DodajKursGUI(MenjacnicaGUI glavniProzor) {
+	public DodajKursGUI() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodajKursGUI.class.getResource("/icons/Screenshot.png")));
 		setResizable(false);
 		setTitle("Dodaj kurs");
@@ -70,9 +68,6 @@ public class DodajKursGUI extends JFrame {
 		contentPane.add(getTextFieldSkraceniNaziv());
 		contentPane.add(getBtnDodaj());
 		contentPane.add(getBtnOdus());
-		
-		//podesavanje
-		this.glavniProzor = glavniProzor;
 				
 	}
 
@@ -164,24 +159,7 @@ public class DodajKursGUI extends JFrame {
 		}
 		return btnDodaj;
 	}
-	private JButton getBtnOdus() {
-		if (btnOdus == null) {
-			btnOdus = new JButton("Odustani");
-			btnOdus.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-		}
-		return btnOdus;
-	}
-	private JSpinner getSpinnerSifra() {
-		if (spinnerSifra == null) {
-			spinnerSifra = new JSpinner();
-			spinnerSifra.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		}
-		return spinnerSifra;
-	}
+	
 	
 	private void unesiKurs() {
 		try {
@@ -196,16 +174,32 @@ public class DodajKursGUI extends JFrame {
 			valuta.setSrednji(Double.parseDouble(textFieldSrednjiKurs.getText()));
 			
 			// Dodavanje valute u kursnu listu
-			glavniProzor.sistem.dodajValutu(valuta);
+			KontrolerGUI.dodajValutuKontroler(valuta);
 
-			// Osvezavanje glavnog prozora
-			glavniProzor.prikaziSveValute();
-			
-			//Zatvaranje DodajValutuGUI prozora
+			KontrolerGUI.prikaziSveValuteKontroler();
+
 			dispose();
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
 					"Greska", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	private JSpinner getSpinnerSifra() {
+		if (spinnerSifra == null) {
+			spinnerSifra = new JSpinner();
+			spinnerSifra.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		}
+		return spinnerSifra;
+	}
+	private JButton getBtnOdus() {
+		if (btnOdus == null) {
+			btnOdus = new JButton("Odustani");
+			btnOdus.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+		}
+		return btnOdus;
 	}
 }

@@ -41,14 +41,13 @@ public class ObrisiKursGUI extends JFrame {
 	private JButton btnOdus;
 	private JCheckBox chckbxZaistaObrisiKurs;
 	private JLabel label;
-	
-	private MenjacnicaGUI glavniProzor;
 	private Valuta valuta;
+
 
 	/**
 	 * Create the frame.
 	 */
-	public ObrisiKursGUI(MenjacnicaGUI glavniProzor, Valuta valuta) {
+	public ObrisiKursGUI() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ObrisiKursGUI.class.getResource("/icons/Screenshot.png")));
 		setResizable(false);
 		setTitle("Obrisi kurs");
@@ -74,10 +73,7 @@ public class ObrisiKursGUI extends JFrame {
 		contentPane.add(getLabel());
 		contentPane.add(getBtnDodaj());
 		contentPane.add(getBtnOdus());
-		
-		//podesavanje
-		this.glavniProzor = glavniProzor;
-		this.valuta = valuta;
+		valuta = KontrolerGUI.vratiSelektovanuValutu();
 		
 		prikaziValutu();
 	}
@@ -216,7 +212,7 @@ public class ObrisiKursGUI extends JFrame {
 		return label;
 	}
 	
-	private void prikaziValutu() {
+	public void prikaziValutu() {
 		// Prikaz podataka o valuti
 		textFieldNaziv.setText(valuta.getNaziv());
 		textFieldSkraceniNaziv.setText(valuta.getSkraceniNaziv());
@@ -226,11 +222,10 @@ public class ObrisiKursGUI extends JFrame {
 		textFieldSrednjiKurs.setText(""+valuta.getSrednji());				
 	}
 
-	private void obrisiValutu() {
+	public void obrisiValutu() {
 		try{
-			glavniProzor.sistem.obrisiValutu(valuta);
-			
-			glavniProzor.prikaziSveValute();
+			KontrolerGUI.obrisiValutuKontroler(valuta);
+			KontrolerGUI.prikaziSveValuteKontroler();
 			dispose();
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
