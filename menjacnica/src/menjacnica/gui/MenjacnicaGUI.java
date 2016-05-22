@@ -48,6 +48,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 
 
+@SuppressWarnings("serial")
 public class MenjacnicaGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -123,7 +124,7 @@ public class MenjacnicaGUI extends JFrame {
 			btnObrisiKurs = new JButton("Obrisi kurs");
 			btnObrisiKurs.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					prikaziObrisiKursGUI();
+					KontrolerGUI.pokreniObrisiKursProzor();
 				}
 			});
 			btnObrisiKurs.setPreferredSize(new Dimension(140, 25));
@@ -135,7 +136,7 @@ public class MenjacnicaGUI extends JFrame {
 			btnIzvrsiZamenu = new JButton("Izvrsi zamenu");
 			btnIzvrsiZamenu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					prikaziIzvrsiZamenuGUI();
+					KontrolerGUI.prikaziIzvrsiZamenuGUIKontroler();
 				}
 			});
 			btnIzvrsiZamenu.setPreferredSize(new Dimension(140, 25));
@@ -187,7 +188,8 @@ public class MenjacnicaGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					KontrolerGUI.sacuvajUFajl();
 				}
-			});mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
+			});
+			mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
 			mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		}
 		return mntmSave;
@@ -209,53 +211,15 @@ public class MenjacnicaGUI extends JFrame {
 			mntmAbout = new JMenuItem("About");
 			mntmAbout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					prikaziAboutProzor();
+					KontrolerGUI.prikaziAboutProzor();
 				}
 			});
 		}
 		return mntmAbout;
 	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-	}
 	
-	private void prikaziAboutProzor(){
-		JOptionPane.showMessageDialog(contentPane,
-				"Autor: Aleksandar Colic 224/14, Verzija 1.0", "O programu Menjacnica",
-				JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	public void prikaziSveValute() {
-		MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
-		model.osveziTabelu(KontrolerGUI.vratiKursnuListu());
-	}
-	
-	public Valuta vratiSelektovanuValutu(){
-		MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
-		return model.vratiValutu(table.getSelectedRow());
-	}
-	
-	private void prikaziObrisiKursGUI() {
-		
-		if (table.getSelectedRow() != -1) {
-			KontrolerGUI.pokreniObrisiKursProzor();
-		}
-		else {
-			JOptionPane.showMessageDialog(this, "Nije izabran red za brisaje!",
-					"Greska", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	
-	private void prikaziIzvrsiZamenuGUI() {
-		if (table.getSelectedRow() != -1) {
-			KontrolerGUI.prikaziIzvrsiZamenuGUIKontroler();
-		}
-		else {
-			JOptionPane.showMessageDialog(this, "Odaberite valutu za transakciju.",
-					"Upozorenje", JOptionPane.WARNING_MESSAGE);
-		}
-	}
 
-	private JTable getTable() {
+	public JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setModel(new MenjacnicaTableModel());
